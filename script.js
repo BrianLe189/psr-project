@@ -15,7 +15,6 @@ function getRandomChoice(min,max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-
 // use getRandomChoice to select from the array
 // convert to string
 function computerPlay() {
@@ -23,72 +22,75 @@ function computerPlay() {
     return String(x);
 }
 
+let playerWins = 0
+
+let computerWins = 0
 
 // create rules for paper vs scissors vs rock
 function rulesPSR(playerSelection,computerSelection) {
     let result = ""
     
     if (playerSelection === "Paper" && computerSelection === "Paper") {
-        result = "The computer chose Paper and the player chose " 
-        + playerSelection + "." + "\nYou Tie! Paper ties with Paper.";
+        result = varResult(playerSelection,computerSelection) 
+        + "\nYou Tie! Paper ties with Paper.";
         console.log(result);
         
     }
     else if (playerSelection === "Scissors" && computerSelection === "Paper") {
-        result = "The computer chose Paper and the player chose " 
-        + playerSelection + "." + "\nYou Win! Scissors beats Paper.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Win! Scissors beats Paper.";
+        playerWins ++;
         console.log(result);
     }
     else if (playerSelection === "Rock" && computerSelection === "Paper") {
-        result = "The computer chose Paper and the player chose " 
-        + playerSelection + "." + "\nYou Lose! Paper beats Rock.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Lose! Paper beats Rock.";
+        computerWins ++;
         console.log(result);
     }
 
     else if (playerSelection === "Paper" && computerSelection === "Scissors") {
-        result = "The computer chose Scissors and the player chose " 
-        + playerSelection + "." + "\nYou Lose! Scissors beats Paper.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Lose! Scissors beats Paper.";
+        computerWins ++;
         console.log(result);
     }
     else if (playerSelection === "Scissors" && computerSelection === "Scissors") {
-        result = "The computer chose Scissors and the player chose " 
-        + playerSelection + "." + "\nYou Tie! Scissors ties with Scissors.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Tie! Scissors ties with Scissors.";
         console.log(result);
     }
     else if (playerSelection === "Rock" && computerSelection === "Scissors") {
-        result = "The computer chose Scissors and the player chose " 
-        + playerSelection + "." + "\nYou Win! Rock beats Scissors.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Win! Rock beats Scissors.";
+        playerWins ++;
         console.log(result);
     }
 
 
     else if (playerSelection === "Paper" && computerSelection === "Rock") {
-        result = "The computer chose Rock and the player chose " 
-        + playerSelection + "." + "\nYou Win! Paper beats Rock.";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Win! Paper beats Rock.";
+        playerWins ++;
         console.log(result);
     }
     else if (playerSelection === "Scissors" && computerSelection === "Rock") {
-        result = "The computer chose Rock and the player chose " 
-        + playerSelection + "." + "\nYou Lose! Rock beats Scissors";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Lose! Rock beats Scissors";
+        computerWins ++;
         console.log(result);
     }
     else if (playerSelection === "Rock" && computerSelection === "Rock") {
-        result = "The computer chose Rock and the player chose " 
-        + playerSelection + "." + "\nYou Tie! Rock ties with Rock";
+        result = varResult(playerSelection,computerSelection)
+        + "\nYou Tie! Rock ties with Rock";
         console.log(result);
     }
     else if (playerSelection === null) {
         result = "Player has entered clicked the Cancel button," + 
         " please follow these rules." + 
-        "\n\nRule 1: Player must type in choices from: Rock, Paper, or Scissors." 
-        + "\nRule 2: Must include no spaces."
-        + "\nRule 3: Must include no numbers or symbols."
-        + "\nRule 4: Must capitalize the first letter of your choice.";
+        errorMessage();
         console.log(result);
-        let playerSelection = prompt("Get ready to play" 
-    + " Paper/Scissors/Rock." + " \nPlease enter a choice"
-    + " between Paper, Scissors, or Rock."
-    + "\n\nYou can also enter: Exit \nin order to escape this prompt.");
+        playerSelection = resetPlayerSelection();
         playerSelection;
         playRound(playerSelection,computerSelection);
     }
@@ -100,22 +102,46 @@ function rulesPSR(playerSelection,computerSelection) {
     else {
         result = "Player has entered unexpected choice," + 
         " please follow these rules." + 
-        "\n\nRule 1: Player must type in choices from: Rock, Paper, Scissors." 
-        + "\nRule 2: Must include no spaces."
-        + "\nRule 3: Must include no numbers or symbols."
-        + "\nRule 4: Must capitalize the first letter of your choice.";
+        errorMessage();
         console.log(result);
-        let playerSelection = prompt("Get ready to play" 
-    + " Paper/Scissors/Rock." + " \nPlease enter a choice"
-    + " between Paper, Scissors, or Rock."
-    + "\n\nYou can also enter: Exit \nin order to escape this prompt.");
+        playerSelection = resetPlayerSelection();
         playerSelection;
         playRound(playerSelection,computerSelection);
     }
 }
 
-// create function for player input
+function varResult(playerSelection,computerSelection){
+    let resultMessage = "The computer chose " + computerSelection + " and the player chose " 
+        + playerSelection + ".";
+    return resultMessage;
+}
+
+function errorMessage(){
+    let errorRules = "\n\nRule 1: Player must type in choices from: Rock, Paper, Scissors." 
+    + "\nRule 2: Must include no spaces."
+    + "\nRule 3: Must include no numbers or symbols."
+    + "\nRule 4: Must capitalize the first letter of your choice.";
+    return errorRules;
+}
+
 // convert input to first letter uppercase 
+
+// repeat playerSelection
+function resetPlayerSelection(){
+    selection = prompt("Get ready to play" 
+    + " Paper/Scissors/Rock." + " \nPlease enter a choice"
+    + " between Paper, Scissors, or Rock." 
+    + "\n\nYou can also enter: Exit \nin order to escape this prompt.");
+    return selection;
+}
+
+// repeat computerSelection
+function resetComputerSelection(){
+    computerSelection = String(computerPlay());
+    return computerSelection;
+}
+
+// create var for player input
 let playerSelection = prompt("Get ready to play" 
     + " Paper/Scissors/Rock." + " \nPlease enter a choice"
     + " between Paper, Scissors, or Rock." 
@@ -129,6 +155,7 @@ let playerSelection = prompt("Get ready to play"
 let computerSelection = String(computerPlay())
 
 
+
 // return string that declares loser or winner 
 // including how they won
 // return results
@@ -139,5 +166,37 @@ function playRound(playerSelection,computerSelection){
     rulesPSR(playerSelection,computerSelection);
 }
 
-playRound(playerSelection,computerSelection);
+//playRound(playerSelection,computerSelection);
 
+// make player and computer select new choice
+
+function game(){
+    for (let i = 0; i < 5; i++) {
+        playRound(playerSelection,computerSelection);
+        console.log("Round " 
+            + (i+1) + "\nPlayer Wins: " 
+            + playerWins
+            + "\nComputer Wins: " 
+            + computerWins)
+        if (i === 4) {
+            if (computerWins > playerWins) {
+                console.log("The computer has won")
+            }
+            else if (playerWins > computerWins) {
+                console.log("The player has won")
+            }
+            else {
+                console.log("It is a tie")
+            }
+        }
+        if (i < 4) {
+        playerSelection = resetPlayerSelection();
+        computerSelection = resetComputerSelection();
+        }
+        else {
+            break;
+        }
+    }
+}
+
+game()
